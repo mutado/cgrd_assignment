@@ -1,0 +1,10 @@
+{% extends "layout/base.twig" %}
+
+{% block content %}
+    <form class="login__form"
+          action="{{ route('login.store') }}" method="post">
+        <input type="text" name="username" placeholder="Username" required autocomplete="email">
+        <input type="password" name="password" placeholder="Password" required autocomplete="current-password">
+        <button type="submit">Login</button>
+    </form>
+{% endblock %}
