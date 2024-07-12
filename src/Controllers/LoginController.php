@@ -20,7 +20,13 @@ class LoginController
             $_SESSION['user_id'] = $user['id'];
             header('Location: /');
         } else {
-            return Response::redirect('/auth/login');
+            return Response::redirect('/auth/login', ['error' => 'Wrong Login Data!']);
         }
+    }
+
+    public function destroy()
+    {
+        unset($_SESSION['user_id']);
+        return "Logged out successfully!";
     }
 }
