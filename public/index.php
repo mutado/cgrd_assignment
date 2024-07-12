@@ -22,6 +22,7 @@ session_start();
     ->withRoutes(__DIR__ . '/../routes/web.php')
     ->withMiddlewares([
         'auth' => \App\Application\Middleware\AuthMiddleware::class,
+        'guest' => \App\Application\Middleware\GuestMiddleware::class,
     ])
     ->run();
 
