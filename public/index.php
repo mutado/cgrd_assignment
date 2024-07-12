@@ -20,6 +20,9 @@ session_start();
 // Load the application and handle the request
 \App\Application\Kernel::create()
     ->withRoutes(__DIR__ . '/../routes/web.php')
+    ->withMiddlewares([
+        'auth' => \App\Application\Middleware\AuthIMiddleware::class
+    ])
     ->run();
 
 
