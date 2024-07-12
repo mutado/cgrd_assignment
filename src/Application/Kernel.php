@@ -33,11 +33,11 @@ class Kernel
         return $this;
     }
 
-    public function run(): ?Response
+    private function handleRequest()
     {
-//        $tbp = new \PDO('mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_DATABASE'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD']);
         try {
-            $route = RouteRegister::getInstance()->getRoute($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+            $method = $this->getRequestMethod();
+            $route = RouteRegister::getInstance()->getRoute($method, $_SERVER['REQUEST_URI']);
             foreach ($route->getMiddlewares() as $middleware) {
                 $middlewareInstance = new $this->middlewares[$middleware];
                 $middlewareInstance->handle();
@@ -46,6 +46,39 @@ class Kernel
         } catch (\Exception $e) {
             return Handler::handle($e);
         }
+    }
+
+    public function run(): ?Response
+    {
+        $response = $this->handleRequest();
+        $this->cleanFlash();
+        if (is_string($response)) {
+            echo $response;
+            return null;
+        } else {
+            return $response;
+        }
+
+    }
+
+    private function cleanFlash()
+    {
+        if (isset($_SESSION['flash']))
+            foreach ($_SESSION['flash'] as $key => $value) {
+                if (!in_array($key, $_SESSION['new_flash'] ?? [])) {
+                    unset($_SESSION['flash'][$key]);
+                }
+            }
+        unset($_SESSION['new_flash']);
+    }
+
+    /**
+     * Get hidden request method or http method.
+     * @return void
+     */
+    private function getRequestMethod()
+    {
+        return $_POST['_method'] ?? $_GET['_method'] ?? $_SERVER['REQUEST_METHOD'];
     }
 
 }

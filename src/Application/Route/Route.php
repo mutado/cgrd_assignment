@@ -5,6 +5,9 @@ namespace App\Application\Route;
 /**
  * @method static Route get(string $path, mixed $callback)
  * @method static Route post(string $path, mixed $callback)
+ * @method static Route put(string $path, mixed $callback)
+ * @method static Route patch(string $path, mixed $callback)
+ * @method static Route delete(string $path, mixed $callback)
  */
 class Route
 {
@@ -25,7 +28,7 @@ class Route
                 $route->callback = function (...$variables) use ($attributes) {
                     $controller = new $attributes[0];
                     $method = $attributes[1];
-                    $controller->$method(...$variables);
+                    return $controller->$method(...$variables);
                 };
             } else {
                 $route->callback = function () use ($attributes) {
@@ -37,7 +40,7 @@ class Route
         return $route;
     }
 
-    const array VALID_METHODS = ['GET', 'POST'];
+    const array VALID_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
     public static function __callStatic(string $name, array $arguments): self
     {
@@ -60,7 +63,7 @@ class Route
 
     public function run()
     {
-        call_user_func($this->callback, ...$this->variables);
+        return call_user_func($this->callback, ...$this->variables);
     }
 
     public function setVariables(array $variables)

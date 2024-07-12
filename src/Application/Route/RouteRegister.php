@@ -50,9 +50,11 @@ class RouteRegister
 
     /**
      * Get route matching the method and uri.
-     * @param string $method
+     * @param string $requestMethod
      * @param string $requestUri
      * @return Route
+     * @throws InvalidMethodHttpException
+     * @throws NotFoundHttpException
      */
     public function getRoute(string $requestMethod, string $requestUri): Route
     {
