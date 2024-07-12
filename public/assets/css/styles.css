@@ -2,9 +2,10 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
+    color: #16396B;
 }
 
-.layout__container {
+body {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,24 +19,38 @@ body, html {
     background-attachment: fixed;
 }
 
+.layout__content {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 .login__form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    width: 100%;
-    max-width: 500px;
 }
 
-input {
+input,
+textarea{
     padding: 1rem;
     color: #8092AD;
     border: 1px solid #F0F0F0;
-    background: #FCFCFC;
+    background: rgba(252, 252, 252, 0.25);
     border-radius: 3px;
     font-weight: 500;
 }
 
 button {
+    cursor: pointer;
+}
+
+.primary {
+    text-align: center;
+    display: block;
+    width: 100%;
     padding: 1.2rem;
     color: white;
     font-weight: 600;
@@ -44,4 +59,89 @@ button {
     border-radius: 3px;
     cursor: pointer;
     font-size: 0.9rem;
+}
+
+button.secondary {
+    border: none;
+    background: transparent;
+}
+
+button > img {
+    width: 1rem;
+    height: 1rem;
+}
+
+ul[role='list'] {
+    padding: 0;
+}
+
+.alert {
+    text-align: center;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 3px;
+    border: 1px solid;
+}
+
+.alert.error {
+    background: #FFEFF0;
+    color: #D06B6B;
+    border-color: #FFC1C0;
+}
+
+.alert.success {
+    background: #F6FFF0;
+    color: #5AA013;
+    border-color: #D3FFA8;
+}
+
+.news__container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.article__container {
+    padding: 1.2rem;
+    border: 1px solid #F0F0F0;
+    background: #FCFCFC;
+    border-radius: 3px;
+
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.article__container h6 {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.article__container p {
+    margin: 0;
+    flex: 1;
+    font-size: 0.8rem;
+}
+
+.news_form__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.news_form__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 600;
 }

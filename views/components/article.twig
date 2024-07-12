@@ -1,0 +1,12 @@
+<article class="article__container">
+    <h6>{{ post.title }}</h6>
+    <p>{{ post.content }}</p>
+    <div>
+        <button class="secondary" data-action="edit" data-id="{{ post.id }}">
+            <img src="/assets/images/pencil.svg" alt="edit">
+        </button>
+        <button class="secondary" data-action="delete" data-id="{{ post.id }}">
+            <img src="/assets/images/close.svg" alt="delete">
+        </button>
+    </div>
+</article>

@@ -6,16 +6,30 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>cgrd</title>
+    <link rel="stylesheet" href="/assets/css/reset.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
     {% block stylesheets %}{% endblock %}
 </head>
-<body class="layout__container">
+<body>
 <header class="layout__header">
     <a href="{{ route('home.index') }}">
         <img class="logo" src="/assets/images/logo.svg" alt="logo">
     </a>
 </header>
-{% block content %}{% endblock %}
+{% if flash['success'] is defined %}
+    <div class="alert success layout__content">
+        {{ flash['success'] }}
+    </div>
+{% endif %}
+{% if flash['error'] is defined %}
+    <div class="alert error layout__content">
+        {{ flash['error'] }}
+    </div>
+{% endif %}
+<section class="layout__content">
+    {% block content %}{% endblock %}
+</section>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 {% block javascripts %}{% endblock %}
 </body>
 </html>

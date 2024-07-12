@@ -1,0 +1,103 @@
+{% extends "layout/base.twig" %}
+
+{% block content %}
+    <section>
+        <h1>
+            All News
+        </h1>
+        <ul role="list" class="news__container">
+            {% for post in news %}
+                <li>
+                    {% include 'components/article.twig' with {'post': post} %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+    <form id="newsForm" class="news_form__layout" method="post" action="/news">
+        <input id="newsFormMethod" type="hidden" name="_method" value="POST">
+
+        <div class="news_form__header">
+            <h1 id="newsFormHeader">
+                Create News
+            </h1>
+            <button id="closeEditButton" class="secondary" style="display: none">
+                <img src="/assets/images/close.svg" alt="close">
+            </button>
+        </div>
+        <input id="newsFormTitle" type="text" name="title" placeholder="Title" required>
+        <textarea id="newsFormContent" name="content" placeholder="Content" required></textarea>
+        <button type="submit" id="newsFormSubmit" class="primary">
+            Create
+        </button>
+    </form>
+    <button id="logout" class="primary">
+        Logout
+    </button>
+{% endblock %}
+
+{% block javascripts %}
+    <script defer>
+        const news = {{ news|json_encode|raw }};
+        let editId = null;
+
+        $(document).ready(() => {
+            const form = $('#newsForm')
+            const formMethod = form.find('#newsFormMethod')
+            const header = $('#newsFormHeader')
+            const title = $('#newsFormTitle')
+            const content = $('#newsFormContent')
+            const submitButton = $('#newsFormSubmit')
+            const logoutButton = $('#logout')
+            const closeEditButton = $('#closeEditButton')
+
+            logoutButton.on('click', function (event) {
+                event.preventDefault()
+                $.ajax({
+                    url: '{{ route('logout') }}',
+                    method: 'POST',
+                    success: function () {
+                        window.location.href = '{{ route('login.index') }}'
+                    }
+                })
+            })
+
+            $('button[data-action="edit"]').on('click', function (event) {
+                closeEditButton.show()
+                event.preventDefault()
+                editId = $(this).data('id')
+                const post = news.find(post => post.id === editId)
+                header.text('Edit News')
+                title.val(post.title)
+                content.val(post.content)
+                submitButton.text('Save')
+                form.attr('action', `/news/${editId}`)
+                formMethod.val('PUT')
+            })
+
+            $('button[data-action="delete"]').on('click', function (event) {
+                event.preventDefault()
+                form.attr('action', `/news/${$(this).data('id')}`)
+                formMethod.val('DELETE')
+                form.submit()
+            })
+
+            function closeEditForm() {
+                closeEditButton.hide()
+                editId = null;
+                form.attr('action', '/news')
+                formMethod.val('POST')
+                header.text('Create News')
+                title.val('')
+                content.val('')
+                submitButton.text('Create')
+            }
+
+
+            closeEditButton.on('click', function (event) {
+                console.log('close')
+                event.preventDefault()
+                closeEditForm()
+            })
+        })
+    </script>
+{% endblock %}
