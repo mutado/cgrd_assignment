@@ -21,7 +21,7 @@ session_start();
 \App\Application\Kernel::create()
     ->withRoutes(__DIR__ . '/../routes/web.php')
     ->withMiddlewares([
-        'auth' => \App\Application\Middleware\AuthIMiddleware::class
+        'auth' => \App\Application\Middleware\AuthMiddleware::class,
     ])
     ->run();
 

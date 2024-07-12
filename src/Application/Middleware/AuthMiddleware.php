@@ -4,7 +4,7 @@ namespace App\Application\Middleware;
 
 use App\Application\Exception\UnauthorizedHttpException;
 
-class AuthIMiddleware implements IMiddleware
+class AuthMiddleware implements IMiddleware
 {
 
     public function handle()
