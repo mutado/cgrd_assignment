@@ -20,9 +20,7 @@ $connection->exec('CREATE TABLE IF NOT EXISTS users (
 $connection->exec('CREATE TABLE IF NOT EXISTS news (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    content TEXT NOT NULL,
-    user_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    content TEXT NOT NULL
 )');
 
 $connection->prepare(
@@ -31,3 +29,13 @@ $connection->prepare(
     'username' => 'admin',
     'password' => password_hash('admin', PASSWORD_DEFAULT),
 ]);
+
+foreach ([
+             ['title' => 'First news', 'content' => 'This is the first news',],
+             ['title' => 'Second news', 'content' => 'This is the second news',],
+             ['title' => 'Third news', 'content' => 'This is the third news',],
+         ] as $news) {
+    $connection->prepare(
+        'INSERT INTO news (title, content) VALUES (:title, :content)',
+    )->execute($news);
+}
